@@ -18,6 +18,11 @@ https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe
 Make sure Miniconda is added to the PATH environment variable
 ![anaconda_install](https://raw.githubusercontent.com/tooldigital/StableDiffusionAPI/main/readme/conda.png)
 
+Install Nodejs (Windows)
+```bash
+https://nodejs.org/en/download/
+```
+
 Clone the project
 ```bash
 git clone https://github.com/tooldigital/StableDiffusionAPI
