@@ -5,6 +5,8 @@ This project runs a Stable Diffusion backend and frontend to communicate with.
 
 ![Screenshot](https://raw.githubusercontent.com/tooldigital/StableDiffusionAPI/main/readme/house.png)
 
+Kudos https://github.com/nicknochnack 🙌
+
 ## Run Locally
 
 Windows PC with Nvidia GPU with 8Gb of RAM or more
