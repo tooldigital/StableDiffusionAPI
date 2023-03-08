@@ -28,6 +28,14 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react'
 
+import {
+  List,
+  ListItem,
+  ListIcon,
+  OrderedList,
+  UnorderedList,
+} from '@chakra-ui/react'
+
 import { SimpleGrid } from '@chakra-ui/react'
 
 import { Box } from '@chakra-ui/react'
@@ -69,7 +77,7 @@ const App = () => {
     } else if (!steps) {
       updateErrorMessage("no steps");
       result = true;
-    } else if (!seed && seed !=0) {
+    } else if (!seed && seed != 0) {
       updateErrorMessage("no seed");
       result = true;
     }
@@ -77,12 +85,12 @@ const App = () => {
   }
 
   const generate = async (prompt) => {
-    if(checkError()) {
+    if (checkError()) {
       updateError(true);
     } else {
       updateError(false);
       updateLoading(true);
-      const result = await axios.get(`http://127.0.0.1:8000/?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}`);
+      const result = await axios.get(`https://b215-78-21-57-225.eu.ngrok.io?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}`);
       updateImage(result.data);
       updateLoading(false);
     }
@@ -95,6 +103,20 @@ const App = () => {
 
         <Box marginTop={"10px"} marginBottom={"10px"} bg='black' color='white' p={4} borderWidth='1px' borderRadius='lg' >TEXT TO IMAGE</Box>
 
+        <Text>We provide 4 base models and numerous other custom models.</Text>
+        <Text marginBottom={"10px"}>When using custom model, include this prefix in the prompt</Text>
+        <UnorderedList marginBottom={"30px"}>
+          <ListItem>wimvanhenden/blade-runner-2049-v1: <b>bldrnrst</b></ListItem>
+          <ListItem>dreamlike-art/dreamlike-photoreal-2.0: <b>photo</b></ListItem>
+          <ListItem>nitrosocke/Arcane-Diffusion: <b>arcane style</b></ListItem>
+          <ListItem>prompthero/poolsuite-diffusion <b>poolsuite style</b></ListItem>
+          <ListItem>dallinmackay/Van-Gogh-diffusion <b>lvngvncnt</b></ListItem>
+          <ListItem>joachimsallstrom/Double-Exposure-Diffusion <b>dublex</b></ListItem>
+          <ListItem>prompthero/openjourney <b>mdjrny-v4 style</b></ListItem>
+          <ListItem>SG161222/Realistic_Vision_V1.3_Fantasy.ai <b>RAW photo</b></ListItem>
+        </UnorderedList>
+
+
         <Wrap marginBottom={"10px"}>
           <Input placeholder='prompt' value={prompt} onChange={(e) => updatePrompt(e.target.value)}></Input>
           <Input placeholder='negative prompt' value={neg_prompt} onChange={(e) => updateNegPrompt(e.target.value)}></Input>
@@ -106,6 +128,17 @@ const App = () => {
               <option>runwayml/stable-diffusion-v1-5</option>
               <option>stabilityai/stable-diffusion-2-base</option>
               <option>stabilityai/stable-diffusion-2-1-base</option>
+
+
+              <option>wimvanhenden/blade-runner-2049-v1</option>
+              <option>dreamlike-art/dreamlike-photoreal-2.0</option>
+              <option>nitrosocke/Arcane-Diffusion</option>
+              <option>prompthero/poolsuite-diffusion</option>
+              <option>dallinmackay/Van-Gogh-diffusion</option>
+              <option>joachimsallstrom/Double-Exposure-Diffusion</option>
+              <option>prompthero/openjourney</option>
+              <option>SG161222/Realistic_Vision_V1.3_Fantasy.ai</option>
+
             </Select>
           </FormControl>
 
