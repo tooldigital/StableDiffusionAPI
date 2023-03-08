@@ -3,6 +3,7 @@
 
 This project runs a Stable Diffusion backend and frontend to communicate with.
 
+![Screenshot](https://raw.githubusercontent.com/tooldigital/StableDiffusionAPI/main/readme/house.png)
 
 ## Run Locally
 
@@ -13,7 +14,7 @@ Install Miniconda (Windows) - Make sure Conda is in your system path
 https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe
 ```
 Make sure Miniconda is added to the PATH environment variable
-![Logo](https://raw.githubusercontent.com/tooldigital/StableDiffusionAPI/main/readme/conda.png)
+![anaconda_install](https://raw.githubusercontent.com/tooldigital/StableDiffusionAPI/main/readme/conda.png)
 
 Clone the project
 ```bash
