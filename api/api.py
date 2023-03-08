@@ -1,14 +1,3 @@
-import sys
-import subprocess
-
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'diffusers==0.13.1'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'transformers==4.26.1'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'scipy'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'ftfy==6.1.1'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'accelerate==0.16.0'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', ' fastapi==0.92.0'])
-
-
 import tool_methods
 import random
 from PIL import Image, ImageOps
