@@ -90,7 +90,7 @@ const App = () => {
     } else {
       updateError(false);
       updateLoading(true);
-      const result = await axios.get(`https://b215-78-21-57-225.eu.ngrok.io?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}`);
+      const result = await axios.get(`http://localhost:8000?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}`);
       updateImage(result.data);
       updateLoading(false);
     }

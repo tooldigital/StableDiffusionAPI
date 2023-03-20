@@ -1,0 +1,12 @@
+services:
+  test:
+    image: model_nvidia
+    build: ./model
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
