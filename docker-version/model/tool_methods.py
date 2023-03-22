@@ -1,4 +1,3 @@
-
 import torch
 import gc
 import os
@@ -10,7 +9,7 @@ import requests
 from io import BytesIO
 from tqdm import tqdm
 from time import sleep
-
+import random
 
 from diffusers import (
     StableDiffusionPipeline,
@@ -31,6 +30,9 @@ dpth_to_img_pipe = None
 def getImageForPrompt(_prompt, _neg,_width, _height,_steps,_guidance,_seed,_scheduler,_samples,_selectedmodel):
 
   global txt_to_img_pipe
+
+  if _seed == 0:
+    _seed = random.randint(0, 2147483647)
 
   print("***********************")
   print("CREATING IMAGE")
@@ -54,6 +56,8 @@ def getImageForPrompt(_prompt, _neg,_width, _height,_steps,_guidance,_seed,_sche
     txt_to_img_pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(txt_to_img_pipe.scheduler.config)
   elif _scheduler == "DPMSolverMultistepScheduler":
     txt_to_img_pipe.scheduler = DPMSolverMultistepScheduler.from_config(txt_to_img_pipe.scheduler.config)
+
+ 
 
   generator = torch.Generator('cuda').manual_seed(_seed)
   images = txt_to_img_pipe(_prompt, negative_prompt=_neg, num_inference_steps=_steps,height=_height, width=_width, guidance_scale=_guidance,generator=generator,num_images_per_prompt=_samples).images

@@ -1,8 +1,20 @@
 services:
-  test:
-    image: model_nvidia
+  redis:
+    image: redis
+    networks:
+    - tool_network
+
+  model:
+    image: model_nvidia_tool
     build: ./model
     tty: true
+    depends_on:
+    - redis
+    networks:
+    - tool_network
+    env_file:
+    - app.env
+    restart: on-failure
     deploy:
       resources:
         reservations:
@@ -10,3 +22,18 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+  
+  webserver:
+    image: webserver_tool
+    build: ./api
+    depends_on:
+    - redis
+    env_file:
+    - app.env
+    ports:
+    - "80:80"
+    networks:
+    - tool_network
+
+networks:
+    tool_network:

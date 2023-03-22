@@ -23,13 +23,12 @@ RUN conda init
 RUN curl -sL https://deb.nodesource.com/setup_14.x  | bash -
 RUN apt-get -y install nodejs
 
-
 #create conda env
 COPY environment.yml ./
 RUN conda env create -f environment.yml
 
-COPY inference.py ./
 COPY tool_methods.py ./
+COPY main.py ./
 
-#SHELL ["conda", "run", "-n", "tool", "/bin/bash", "-c"]
-#ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "tool", "python", "inference.py"]
+SHELL ["conda", "run", "-n", "tool", "/bin/bash", "-c"]
+ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "tool", "python", "main.py"]
