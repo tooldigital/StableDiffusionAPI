@@ -54,7 +54,7 @@ def generateSD():
                 image.save(output, format="JPEG")
                 db.set(id, output.getvalue())
                 output.close()
-                time.sleep(0.25)
+                time.sleep(0.1)
         # Sleep for a small amount
         time.sleep(0.05)
 

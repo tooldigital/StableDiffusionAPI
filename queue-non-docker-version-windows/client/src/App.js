@@ -90,7 +90,12 @@ const App = () => {
     } else {
       updateError(false);
       updateLoading(true);
-      const result = await axios.get(`http://localhost/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}`);
+      const config = {
+        headers:{
+          "ngrok-skip-browser-warning": "69420"
+        }
+      };
+      const result = await axios.get(`https://6522-78-21-57-225.eu.ngrok.io/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}`,config);
       updateImage(result.data);
       updateLoading(false);
     }
@@ -103,17 +108,12 @@ const App = () => {
 
         <Box marginTop={"10px"} marginBottom={"10px"} bg='black' color='white' p={4} borderWidth='1px' borderRadius='lg' >TEXT TO IMAGE</Box>
 
-        <Text>We provide 4 base models and numerous other custom models.</Text>
+        <Text>We provide 4 base models and other custom models.</Text>
         <Text marginBottom={"10px"}>When using custom model, include this prefix in the prompt</Text>
         <UnorderedList marginBottom={"30px"}>
-          <ListItem>wimvanhenden/blade-runner-2049-v1: <b>bldrnrst</b></ListItem>
-          <ListItem>dreamlike-art/dreamlike-photoreal-2.0: <b>photo</b></ListItem>
+         <ListItem>wimvanhenden/ultimate-country-v1: <b>ultmtcntry</b></ListItem>
           <ListItem>nitrosocke/Arcane-Diffusion: <b>arcane style</b></ListItem>
-          <ListItem>prompthero/poolsuite-diffusion <b>poolsuite style</b></ListItem>
-          <ListItem>dallinmackay/Van-Gogh-diffusion <b>lvngvncnt</b></ListItem>
-          <ListItem>joachimsallstrom/Double-Exposure-Diffusion <b>dublex</b></ListItem>
           <ListItem>prompthero/openjourney <b>mdjrny-v4 style</b></ListItem>
-          <ListItem>SG161222/Realistic_Vision_V1.3_Fantasy.ai <b>RAW photo</b></ListItem>
         </UnorderedList>
 
 
@@ -124,21 +124,10 @@ const App = () => {
           <FormControl>
             <FormLabel>Model</FormLabel>
             <Select placeholder='runwayml/stable-diffusion-v1-5' value={selected_model} onChange={(e) => updateSelectedModel(e.target.value)} >
-              <option>CompVis/stable-diffusion-v1-4</option>
               <option>runwayml/stable-diffusion-v1-5</option>
-              <option>stabilityai/stable-diffusion-2-base</option>
-              <option>stabilityai/stable-diffusion-2-1-base</option>
-
-
-              <option>wimvanhenden/blade-runner-2049-v1</option>
-              <option>dreamlike-art/dreamlike-photoreal-2.0</option>
+              <option>wimvanhenden/ultimate-country-v1</option>
               <option>nitrosocke/Arcane-Diffusion</option>
-              <option>prompthero/poolsuite-diffusion</option>
-              <option>dallinmackay/Van-Gogh-diffusion</option>
-              <option>joachimsallstrom/Double-Exposure-Diffusion</option>
               <option>prompthero/openjourney</option>
-              <option>SG161222/Realistic_Vision_V1.3_Fantasy.ai</option>
-
             </Select>
           </FormControl>
 

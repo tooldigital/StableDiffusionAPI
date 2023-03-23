@@ -27,8 +27,8 @@ def generateSD():
        
         # Pop off multiple images from Redis queue atomically
         with db.pipeline() as pipe:
-            pipe.lrange(os.environ.get("SD_QUEUE"), 0, 0)
-            pipe.ltrim(os.environ.get("SD_QUEUE"), 1, -1)
+            pipe.lrange("sd_queue", 0, 0)
+            pipe.ltrim("sd_queue", 1, -1)
             queue, _ = pipe.execute()
 
         imageIDs = []
@@ -53,7 +53,7 @@ def generateSD():
                 image.save(output, format="JPEG")
                 db.set(id, output.getvalue())
                 output.close()
-                time.sleep(0.25)
+                time.sleep(0.1)
         # Sleep for a small amount
         time.sleep(0.05)
 

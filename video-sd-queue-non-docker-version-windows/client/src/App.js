@@ -25,8 +25,6 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react'
 
-import VideoPlayer from "react-video-js-player";
-
 import {
   ListItem,
   UnorderedList,
@@ -60,7 +58,6 @@ const App = () => {
 
   const parse = (val) => val.replace(/^\$/, '')
 
-
   const checkError = () => {
 
     var result = false;
@@ -93,8 +90,13 @@ const App = () => {
     } else {
       updateError(false);
       updateLoading(true);
-      const result = await axios.get(`http://localhost/generatevideo?prompt=${prompt}&timings=${timings}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}&strength=${strength}&captions=${captions}&keyframes=${keyframes}&variations=${variations}&frames=${frames}&fps=${fps}`);
-      updateVideo('http://localhost/static/'+result.data);
+      const config = {
+        headers:{
+          "ngrok-skip-browser-warning": "69420"
+        }
+      };
+      const result = await axios.get(`https://489a-78-21-57-225.eu.ngrok.io/generatevideo?prompt=${prompt}&timings=${timings}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}&strength=${strength}&captions=${captions}&keyframes=${keyframes}&variations=${variations}&frames=${frames}&fps=${fps}`,config);
+      updateVideo('https://489a-78-21-57-225.eu.ngrok.io/static/'+result.data);
       updateLoading(false);
     }
   };
@@ -110,6 +112,8 @@ const App = () => {
         <Text marginBottom={"10px"}>When using custom model, include this prefix in the prompt</Text>
         <UnorderedList marginBottom={"30px"}>
           <ListItem>wimvanhenden/ultimate-country-v1: <b>ultmtcntry</b></ListItem>
+          <ListItem>prompthero/openjourney <b>mdjrny-v4 style</b></ListItem>
+          <ListItem>nitrosocke/Arcane-Diffusion: <b>arcane style</b></ListItem>
         </UnorderedList>
 
          <Text>Prompts</Text>
@@ -129,6 +133,8 @@ const App = () => {
             <Select placeholder='runwayml/stable-diffusion-v1-5' value={selected_model} onChange={(e) => updateSelectedModel(e.target.value)} >
               <option>runwayml/stable-diffusion-v1-5</option>
               <option>wimvanhenden/ultimate-country-v1</option>
+              <option>nitrosocke/Arcane-Diffusion</option>
+              <option>prompthero/openjourney</option>
             </Select>
           </FormControl>
 

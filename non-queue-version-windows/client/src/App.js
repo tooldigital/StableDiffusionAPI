@@ -14,10 +14,7 @@ import {
 
 import {
   FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  FormErrorIcon,
+  FormLabel
 } from "@chakra-ui/form-control"
 
 import {
@@ -29,10 +26,7 @@ import {
 } from '@chakra-ui/react'
 
 import {
-  List,
   ListItem,
-  ListIcon,
-  OrderedList,
   UnorderedList,
 } from '@chakra-ui/react'
 

@@ -19,16 +19,14 @@ app.add_middleware(
 
 @app.get("/")
 def index():
-    return Response("Hello World from Tool! Try this http://localhost/generate?prompt=hello world&negative_prompt=hands&steps=25&seed=0&guidance=7.5&scheduler=PNDMScheduler&selected_model=runwayml/stable-diffusion-v1-5")
+    return Response("Hello World from Tool!")
 
 @app.get("/generate")
 def generate(prompt: str, negative_prompt: str, steps: int,seed: int, guidance: float, scheduler: str,selected_model: str):
-    #prompt: str, negative_prompt: str, steps: int,seed: int, guidance: float, scheduler: str,selected_model: str
     k = str(uuid.uuid4())
     print("started request with id: "+k)
     d = {"id": k, "prompt": prompt,"negative_prompt":negative_prompt,"steps":steps,"seed":seed,"guidance":guidance,"scheduler":scheduler,"selected_model":selected_model}
-    db.rpush(os.environ.get("SD_QUEUE"), json.dumps(d))
-    data = {"success": False, "image":""}
+    db.rpush("sd_queue", json.dumps(d))
     num_tries = 0
     imgdata = None
     while num_tries < 100:
@@ -36,9 +34,18 @@ def generate(prompt: str, negative_prompt: str, steps: int,seed: int, guidance: 
         output = db.get(k)
         # Check to see if our model has classified the input image
         if output is not None:
-            imgdata = output
+            #convert bytes to PIL image
+            image = Image.open(BytesIO(output))
+            buffer = BytesIO()
+            image.save(buffer, format="PNG")
+            imgstr = base64.b64encode(buffer.getvalue())
+            imgdata = imgstr
+            #images[0].save("testimage.png")
+            #buffer = BytesIO(output)
+            #images[0].save(buffer, format="PNG")
+            #imgstr = base64.b64encode(buffer.getvalue())
+            #imgdata = imgstr
             # Delete the result from the database and break from the polling loop
-            data["success"] = True
             db.delete(k)
             break
         
