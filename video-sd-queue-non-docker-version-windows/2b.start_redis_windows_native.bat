@@ -1,1 +1,0 @@
-redis-server.exe --protected-mode no

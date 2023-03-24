@@ -1,1 +1,0 @@
-cd "api" && echo %cd% && conda activate tool && uvicorn api:app --reload

@@ -1,1 +1,0 @@
-cd "client" && npm i && echo %cd% && npm start

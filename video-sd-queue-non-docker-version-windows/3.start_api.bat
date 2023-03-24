@@ -1,1 +1,0 @@
-cd "api" && echo %cd% && conda activate tool && uvicorn main:app --reload --port 80

@@ -5,16 +5,19 @@ import {
   Text,
   Input,
   Button,
+  Wrap,
   Stack,
+  Image,
   Spinner,
   Select,
-  Textarea,
-  Checkbox
 } from "@chakra-ui/react";
 
 import {
   FormControl,
   FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  FormErrorIcon,
 } from "@chakra-ui/form-control"
 
 import {
@@ -26,32 +29,29 @@ import {
 } from '@chakra-ui/react'
 
 import {
+  List,
   ListItem,
+  ListIcon,
+  OrderedList,
   UnorderedList,
 } from '@chakra-ui/react'
+
 import { SimpleGrid } from '@chakra-ui/react'
+
 import { Box } from '@chakra-ui/react'
 
 import axios from "axios";
 import { useState } from "react";
 
 const App = () => {
-
-  const [video, updateVideo] = useState('');
-  const [timings, updateTimings] = useState('0,15');
-  const [prompt, updatePrompt] = useState('"A quirky band formed through their love for music and The Goonies movie","They started with small shows which eventually grew to larger venues, collaborating with established artists along the way"');
+  const [image, updateImage] = useState();
+  const [prompt, updatePrompt] = useState("");
   const [neg_prompt, updateNegPrompt] = useState("ugly,duplicate, mutilated, out of frame,  mutation, blurry, bad anatomy, extra legs,low resolution,disfigured");
   const [selected_model, updateSelectedModel] = useState("runwayml/stable-diffusion-v1-5");
   const [selected_scheduler, updateSelectedScheduler] = useState("PNDMScheduler");
   const [guidance, updateGuidance] = useState(7.5);
   const [seed, updateSeed] = useState(0);
-  const [strength, updateStrength] = useState(0.5);
   const [steps, updateSteps] = useState(50);
-  const [captions, updateCaptions] = useState(false);
-  const [keyframes, updateKeyframes] = useState(true);
-  const [variations, updateVariations] = useState(4);
-  const [frames, updateFrames] = useState(30);
-  const [fps, updateFPS] = useState(12);
   const [loading, updateLoading] = useState(false);
   const [error, updateError] = useState(false);
   const [errorMessage, updateErrorMessage] = useState("error");
@@ -77,7 +77,7 @@ const App = () => {
     } else if (!steps) {
       updateErrorMessage("no steps");
       result = true;
-    } else if (!seed && seed !== 0) {
+    } else if (!seed && seed != 0) {
       updateErrorMessage("no seed");
       result = true;
     }
@@ -95,37 +95,30 @@ const App = () => {
           "ngrok-skip-browser-warning": "69420"
         }
       };
-      const result = await axios.get(`https://489a-78-21-57-225.eu.ngrok.io/generatevideo?prompt=${prompt}&timings=${timings}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}&strength=${strength}&captions=${captions}&keyframes=${keyframes}&variations=${variations}&frames=${frames}&fps=${fps}`,config);
-      updateVideo('https://489a-78-21-57-225.eu.ngrok.io/static/'+result.data);
+      const result = await axios.get(`https://localhost/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}`,config);
+      updateImage(result.data);
       updateLoading(false);
     }
   };
 
   return (
     <ChakraProvider>
-      <Container maxW='1080px'>
-        <Heading>Tool of North America - Stable Diffusion Video Generator🚀</Heading>
+      <Container maxW='800px'>
+        <Heading>Tool of North America - Stable Diffusion🚀</Heading>
 
-        <Box marginTop={"10px"} marginBottom={"10px"} bg='black' color='white' p={4} borderWidth='1px' borderRadius='lg' >VIDEO KILLED THE RADIOSTAR</Box>
+        <Box marginTop={"10px"} marginBottom={"10px"} bg='black' color='white' p={4} borderWidth='1px' borderRadius='lg' >TEXT TO IMAGE</Box>
 
         <Text>We provide 4 base models and other custom models.</Text>
         <Text marginBottom={"10px"}>When using custom model, include this prefix in the prompt</Text>
         <UnorderedList marginBottom={"30px"}>
-          <ListItem>wimvanhenden/ultimate-country-v1: <b>ultmtcntry</b></ListItem>
-          <ListItem>prompthero/openjourney <b>mdjrny-v4 style</b></ListItem>
+         <ListItem>wimvanhenden/ultimate-country-v1: <b>ultmtcntry</b></ListItem>
           <ListItem>nitrosocke/Arcane-Diffusion: <b>arcane style</b></ListItem>
+          <ListItem>prompthero/openjourney <b>mdjrny-v4 style</b></ListItem>
         </UnorderedList>
 
-         <Text>Prompts</Text>
-          <Textarea  placeholder='' value={prompt} onChange={(e) => updatePrompt(e.target.value)}></Textarea>
-          
-          <Text>Video duration in seconds</Text>
-          <NumberInput value={frames} precision={0} step={1} min={1} onChange={(valueString) => updateFrames(parse(valueString))}><NumberInputField /><NumberInputStepper><NumberIncrementStepper /><NumberDecrementStepper /></NumberInputStepper></NumberInput>
-       
-          <Text>Timings</Text>
-          <Textarea  placeholder='' value={timings} onChange={(e) => updateTimings(e.target.value)}></Textarea>
 
-          <Text>Negative prompt</Text>
+        <Wrap marginBottom={"10px"}>
+          <Input placeholder='prompt' value={prompt} onChange={(e) => updatePrompt(e.target.value)}></Input>
           <Input placeholder='negative prompt' value={neg_prompt} onChange={(e) => updateNegPrompt(e.target.value)}></Input>
 
           <FormControl>
@@ -149,33 +142,21 @@ const App = () => {
               <option>DPMSolverMultistepScheduler</option>
             </Select>
           </FormControl>
-    
-        <SimpleGrid marginBottom={"10px"} columns={8} spacing={0}>
+        </Wrap>
+        <SimpleGrid marginBottom={"10px"} columns={3} spacing={0}>
           <Text>Guidance:</Text>
           <Text>Steps:</Text>
           <Text>Seed:</Text>
-          <Text>strength:</Text>
-          <Text paddingLeft={"10px"}>Captions:</Text>
-          <Text paddingLeft={"10px"}>Keyframes only:</Text>
-          <Text>Variations:</Text>
-          <Text>FPS:</Text>
           <NumberInput value={guidance} precision={2} step={0.1} onChange={(valueString) => updateGuidance(parse(valueString))} ><NumberInputField /><NumberInputStepper><NumberIncrementStepper /><NumberDecrementStepper /></NumberInputStepper></NumberInput>
           <NumberInput value={steps} precision={0} step={1} onChange={(valueString) => updateSteps(parse(valueString))} ><NumberInputField /><NumberInputStepper><NumberIncrementStepper /><NumberDecrementStepper /></NumberInputStepper></NumberInput>
           <NumberInput value={seed} precision={0} step={1} onChange={(valueString) => updateSeed(parse(valueString))} ><NumberInputField /><NumberInputStepper><NumberIncrementStepper /><NumberDecrementStepper /></NumberInputStepper></NumberInput>
-          <NumberInput value={strength} precision={2} step={0.1} min={0} max={1} onChange={(valueString) => updateStrength(parse(valueString))}><NumberInputField /><NumberInputStepper><NumberIncrementStepper /><NumberDecrementStepper /></NumberInputStepper></NumberInput>
-          <Checkbox paddingLeft={"10px"} isChecked={captions}  onChange={(e) => updateCaptions(e.target.checked)} ></Checkbox>
-          <Checkbox paddingLeft={"10px"} isChecked={keyframes}  onChange={(e) => updateKeyframes(e.target.checked)} ></Checkbox>
-          <NumberInput value={variations} precision={0} step={1} min={1} onChange={(valueString) => updateVariations(parse(valueString))}><NumberInputField /><NumberInputStepper><NumberIncrementStepper /><NumberDecrementStepper /></NumberInputStepper></NumberInput>
-          <NumberInput value={fps} precision={0} step={1} min={1} onChange={(valueString) => updateFPS(parse(valueString))}><NumberInputField /><NumberInputStepper><NumberIncrementStepper /><NumberDecrementStepper /></NumberInputStepper></NumberInput>
-    
         </SimpleGrid>
 
-        <Button onClick={(e) => generate(prompt)} marginBottom={"50px"} >Generate</Button>
+        <Button onClick={(e) => generate(prompt)} marginBottom={"10px"} >Generate</Button>
 
         {error ? (<Box marginTop={"10px"} marginBottom={"10px"} bg='black' color='white' p={4} borderWidth='1px' borderRadius='lg' >ERROR: {errorMessage}</Box>) : null}
 
-        {loading ? (<Stack><Spinner marginBottom={"50px"} size='xl' /></Stack>) :  video ? (<Box marginBottom={"50px"} as='video' controls src={video} poster='https://cdn.8thwall.com/web/accounts/icons/50z1f4gsobku6ce5aer2xb87wirfmecatq1raz6ttnj0t7cmwi31zupd-400x400' alt='video' objectFit='contain' sx={{aspectRatio: '1/1'}}/>) : null}
-
+        {loading ? (<Stack><Spinner size='xl' /></Stack>) : image ? (<Image src={`data:image/png;base64,${image}`} boxShadow="lg" />) : null}
       </Container>
     </ChakraProvider>
   );
