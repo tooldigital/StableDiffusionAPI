@@ -46,7 +46,7 @@ import { useState } from "react";
 const App = () => {
   const [image, updateImage] = useState();
   const [prompt, updatePrompt] = useState("");
-  const [neg_prompt, updateNegPrompt] = useState("ugly,duplicate, mutilated, out of frame,  mutation, blurry, bad anatomy, extra legs,low resolution,disfigured");
+  const [neg_prompt, updateNegPrompt] = useState("");
   const [selected_model, updateSelectedModel] = useState("runwayml/stable-diffusion-v1-5");
   const [selected_scheduler, updateSelectedScheduler] = useState("PNDMScheduler");
   const [guidance, updateGuidance] = useState(7.5);
@@ -95,7 +95,7 @@ const App = () => {
           "ngrok-skip-browser-warning": "69420"
         }
       };
-      const result = await axios.get(`https://localhost/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}`,config);
+      const result = await axios.get(`https://6522-78-21-57-225.eu.ngrok.io/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}`,config);
       updateImage(result.data);
       updateLoading(false);
     }
@@ -111,7 +111,7 @@ const App = () => {
         <Text>We provide 4 base models and other custom models.</Text>
         <Text marginBottom={"10px"}>When using custom model, include this prefix in the prompt</Text>
         <UnorderedList marginBottom={"30px"}>
-         <ListItem>wimvanhenden/ultimate-country-v1: <b>ultmtcntry</b></ListItem>
+         <ListItem>wimvanhenden/ultimate-country: <b>ultmtcntry</b></ListItem>
           <ListItem>nitrosocke/Arcane-Diffusion: <b>arcane style</b></ListItem>
           <ListItem>prompthero/openjourney <b>mdjrny-v4 style</b></ListItem>
         </UnorderedList>
@@ -119,13 +119,19 @@ const App = () => {
 
         <Wrap marginBottom={"10px"}>
           <Input placeholder='prompt' value={prompt} onChange={(e) => updatePrompt(e.target.value)}></Input>
+          <Text>ugly,duplicate, mutilated, out of frame,  mutation, blurry, bad anatomy, extra legs,low resolution,disfigured</Text>
           <Input placeholder='negative prompt' value={neg_prompt} onChange={(e) => updateNegPrompt(e.target.value)}></Input>
 
           <FormControl>
             <FormLabel>Model</FormLabel>
             <Select placeholder='runwayml/stable-diffusion-v1-5' value={selected_model} onChange={(e) => updateSelectedModel(e.target.value)} >
               <option>runwayml/stable-diffusion-v1-5</option>
-              <option>wimvanhenden/ultimate-country-v1</option>
+              <option>wimvanhenden/ultimate-country-photo-v1</option>
+              <option>wimvanhenden/ultimate-country-photo-v2</option>
+              <option>wimvanhenden/ultimate-country-photo-v3</option>
+              <option>wimvanhenden/ultimate-country-texture-v1</option>
+              <option>wimvanhenden/ultimate-country-texture-v2</option>
+              <option>wimvanhenden/ultimate-country-texture-v3</option>           
               <option>nitrosocke/Arcane-Diffusion</option>
               <option>prompthero/openjourney</option>
             </Select>
