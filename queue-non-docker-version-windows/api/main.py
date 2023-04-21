@@ -29,10 +29,10 @@ def index():
     return Response("Hello World from Tool stable diffusion text to image!")
 
 @app.get("/generate")
-def generate(prompt: str, negative_prompt: str, steps: int,seed: int, guidance: float, scheduler: str,selected_model: str):
+def generate(prompt: str, negative_prompt: str, steps: int,seed: int, guidance: float, scheduler: str,selected_model: str,amount: int):
     k = str(uuid.uuid4())
     print("started request with id: "+k)
-    d = {"id": k, "prompt": prompt,"negative_prompt":negative_prompt,"steps":steps,"seed":seed,"guidance":guidance,"scheduler":scheduler,"selected_model":selected_model}
+    d = {"id": k, "prompt": prompt,"negative_prompt":negative_prompt,"steps":steps,"seed":seed,"guidance":guidance,"scheduler":scheduler,"selected_model":selected_model,"amount":amount}
     db.rpush("sd_queue", json.dumps(d))
     num_tries = 0
     imgdata = None
@@ -41,18 +41,15 @@ def generate(prompt: str, negative_prompt: str, steps: int,seed: int, guidance: 
         output = db.get(k)
         # Check to see if our model has classified the input image
         if output is not None:
-            #convert bytes to PIL image
-            image = Image.open(BytesIO(output))
-            buffer = BytesIO()
-            image.save(buffer, format="PNG")
-            imgstr = base64.b64encode(buffer.getvalue())
-            imgdata = imgstr
-            #images[0].save("testimage.png")
-            #buffer = BytesIO(output)
-            #images[0].save(buffer, format="PNG")
-            #imgstr = base64.b64encode(buffer.getvalue())
-            #imgdata = imgstr
-            # Delete the result from the database and break from the polling loop
+            myarr = output.split(b"*****!!!!!*****")
+            newarr = []
+            for el in myarr:
+                el.decode("utf-8")
+                newarr.append(el.decode("utf-8"))
+
+            ele= newarr.pop()
+            jsonob = json.dumps(newarr)
+            imgdata = jsonob
             db.delete(k)
             break
         
@@ -60,4 +57,4 @@ def generate(prompt: str, negative_prompt: str, steps: int,seed: int, guidance: 
         tt = 0.6*15
         time.sleep(tt)
 
-    return Response(content=imgdata, media_type="image/png")
+    return Response(content=imgdata, media_type="application/json")
