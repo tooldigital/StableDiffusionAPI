@@ -1,1 +1,1 @@
-cd "model" && conda activate tool && python main.py
+cd "model" && conda activate tool_stable_diffusion_api && python starter.py
