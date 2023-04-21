@@ -5,6 +5,9 @@ import os
 import uuid
 import json
 import time
+import PIL.Image as Image
+from io import BytesIO
+import base64 
 
 app = FastAPI()
 db = redis.StrictRedis(host=os.environ.get("REDIS_HOST"))
