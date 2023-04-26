@@ -95,8 +95,8 @@ const App = () => {
           "ngrok-skip-browser-warning": "69420"
         }
       };
-      const result = await axios.get(`https://6522-78-21-57-225.eu.ngrok.io/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}`,config);
-      updateImage(result.data);
+      const result = await axios.get(`https://2fde-2a02-1812-2409-3200-a0a2-e7fd-7c6c-8bb1.ngrok-free.app/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}&amount=1`,config);
+      updateImage(result.data[0]);
       updateLoading(false);
     }
   };
@@ -162,7 +162,7 @@ const App = () => {
 
         {error ? (<Box marginTop={"10px"} marginBottom={"10px"} bg='black' color='white' p={4} borderWidth='1px' borderRadius='lg' >ERROR: {errorMessage}</Box>) : null}
 
-        {loading ? (<Stack><Spinner size='xl' /></Stack>) : image ? (<Image src={`data:image/png;base64,${image}`} boxShadow="lg" />) : null}
+        {loading ? (<Stack><Spinner size='xl' /></Stack>) : image ? (<Image src={`${image}`} boxShadow="lg" />) : null}
       </Container>
     </ChakraProvider>
   );
