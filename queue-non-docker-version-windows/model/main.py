@@ -29,15 +29,7 @@ def generateSD():
    # Continually poll for new images to classify
     while True:
 
-        '''list = db.lrange(os.environ.get("SD_QUEUE"), 0, 0)
-        for l in list:
-            l = json.loads(l.decode("utf-8"))
-            id = l["id"]
-            print(id)
-            time.sleep(0.5)
-            db.set(id, json.dumps({"done":id}))
-        '''
-       
+      
         # Pop off multiple images from Redis queue atomically
         with db.pipeline() as pipe:
             pipe.lrange("sd_queue", 0, 0)

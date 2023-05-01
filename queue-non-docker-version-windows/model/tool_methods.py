@@ -27,6 +27,9 @@ txt_to_img_pipe = None
 img_to_img_pipe = None
 dpth_to_img_pipe = None
 
+txt_to_img_pipe = StableDiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16)  
+txt_to_img_pipe = txt_to_img_pipe.to("cuda")
+
 def getImageForPrompt(_prompt, _neg,_width, _height,_steps,_guidance,_seed,_scheduler,_samples,_selectedmodel):
 
   global txt_to_img_pipe
@@ -41,8 +44,8 @@ def getImageForPrompt(_prompt, _neg,_width, _height,_steps,_guidance,_seed,_sche
   print("PROMPT: "+_prompt)
   print("SEED: "+str(_seed))
 
-  txt_to_img_pipe = StableDiffusionPipeline.from_pretrained(_selectedmodel, torch_dtype=torch.float16)  
-  txt_to_img_pipe = txt_to_img_pipe.to("cuda")
+  #txt_to_img_pipe = StableDiffusionPipeline.from_pretrained(_selectedmodel, torch_dtype=torch.float16)  
+  #txt_to_img_pipe = txt_to_img_pipe.to("cuda")
   #txt_to_img_pipe.safety_checker = dummy
   if _scheduler == "PNDMScheduler":
     txt_to_img_pipe.scheduler = PNDMScheduler.from_config(txt_to_img_pipe.scheduler.config)
@@ -56,14 +59,12 @@ def getImageForPrompt(_prompt, _neg,_width, _height,_steps,_guidance,_seed,_sche
     txt_to_img_pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(txt_to_img_pipe.scheduler.config)
   elif _scheduler == "DPMSolverMultistepScheduler":
     txt_to_img_pipe.scheduler = DPMSolverMultistepScheduler.from_config(txt_to_img_pipe.scheduler.config)
-
- 
-
   generator = torch.Generator('cuda').manual_seed(_seed)
   images = txt_to_img_pipe(_prompt, negative_prompt=_neg, num_inference_steps=_steps,height=_height, width=_width, guidance_scale=_guidance,generator=generator,num_images_per_prompt=_samples).images
-  del txt_to_img_pipe    
-  gc.collect()
-  torch.cuda.empty_cache()
+  
+  #del txt_to_img_pipe    
+  #gc.collect()
+  #torch.cuda.empty_cache()
   return images
 
 def getImageToImageForPrompt(_image,_prompt, _neg,_steps,_strength,_guidance,_seed,_scheduler,_samples,_selectedmodel):
