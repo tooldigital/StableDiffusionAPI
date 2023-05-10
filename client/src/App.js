@@ -45,11 +45,11 @@ import { useState } from "react";
 
 const App = () => {
   const [image, updateImage] = useState();
-  const [prompt, updatePrompt] = useState("");
-  const [neg_prompt, updateNegPrompt] = useState("");
-  const [selected_model, updateSelectedModel] = useState("runwayml/stable-diffusion-v1-5");
+  const [prompt, updatePrompt] = useState("ultmrck , album cover for a record");
+  const [neg_prompt, updateNegPrompt] = useState("people, person, band, group");
+  const [selected_model, updateSelectedModel] = useState("wimvanhenden/rock-ultmrck-v4");
   const [selected_scheduler, updateSelectedScheduler] = useState("PNDMScheduler");
-  const [guidance, updateGuidance] = useState(7.5);
+  const [guidance, updateGuidance] = useState(12);
   const [seed, updateSeed] = useState(0);
   const [steps, updateSteps] = useState(50);
   const [loading, updateLoading] = useState(false);
@@ -95,7 +95,7 @@ const App = () => {
           "ngrok-skip-browser-warning": "69420"
         }
       };
-      const result = await axios.get(`https://2fde-2a02-1812-2409-3200-a0a2-e7fd-7c6c-8bb1.ngrok-free.app/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}&amount=1`,config);
+      const result = await axios.get(`http://localhost/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}&amount=1`,config);
       updateImage(result.data[0]);
       updateLoading(false);
     }
@@ -108,15 +108,14 @@ const App = () => {
 
         <Box marginTop={"10px"} marginBottom={"10px"} bg='black' color='white' p={4} borderWidth='1px' borderRadius='lg' >TEXT TO IMAGE</Box>
 
-        <Text>We provide 4 base models and other custom models.</Text>
+      
         <Text marginBottom={"10px"}>When using custom model, include this prefix in the prompt</Text>
-        <UnorderedList marginBottom={"30px"}>
-         <ListItem>wimvanhenden/ultimate-country: <b>ultmtcntry</b></ListItem>
-          <ListItem>nitrosocke/Arcane-Diffusion: <b>arcane style</b></ListItem>
-          <ListItem>prompthero/openjourney <b>mdjrny-v4 style</b></ListItem>
-        </UnorderedList>
-
-
+          Use the word <b>ultmcntry</b> as prefix for Country models<br></br>
+          Use the word <b>ultmhxphxp</b> as prefix for Hip Hop models<br></br>
+          Use the word <b>ultmedm</b> as prefix for Hip Hop models<br></br>
+          Use the word <b>ultmrck</b> as prefix for Hip Hop models<br></br>
+          Guidance is the most important parameter to steer the model in a desired direction.<br></br>
+          For finetuned models higher values could give better results.<br></br>
         <Wrap marginBottom={"10px"}>
           <Input placeholder='prompt' value={prompt} onChange={(e) => updatePrompt(e.target.value)}></Input>
           <Text>ugly,duplicate, mutilated, out of frame,  mutation, blurry, bad anatomy, extra legs,low resolution,disfigured</Text>
@@ -124,16 +123,12 @@ const App = () => {
 
           <FormControl>
             <FormLabel>Model</FormLabel>
-            <Select placeholder='runwayml/stable-diffusion-v1-5' value={selected_model} onChange={(e) => updateSelectedModel(e.target.value)} >
+            <Select placeholder='wimvanhenden/rock-ultmrck-v4' value={selected_model} onChange={(e) => updateSelectedModel(e.target.value)} >
               <option>runwayml/stable-diffusion-v1-5</option>
-              <option>wimvanhenden/ultimate-country-photo-v1</option>
-              <option>wimvanhenden/ultimate-country-photo-v2</option>
-              <option>wimvanhenden/ultimate-country-photo-v3</option>
-              <option>wimvanhenden/ultimate-country-texture-v1</option>
-              <option>wimvanhenden/ultimate-country-texture-v2</option>
-              <option>wimvanhenden/ultimate-country-texture-v3</option>           
-              <option>nitrosocke/Arcane-Diffusion</option>
-              <option>prompthero/openjourney</option>
+              <option>wimvanhenden/country-ultmcntry-v4</option>
+              <option>wimvanhenden/hiphop-ultmhxphxp-v4</option>
+              <option>wimvanhenden/edm-ultmedm-v4</option>
+              <option>wimvanhenden/rock-ultmrck-v4</option>    
             </Select>
           </FormControl>
 

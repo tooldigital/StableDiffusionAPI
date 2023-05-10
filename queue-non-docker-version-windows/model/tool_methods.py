@@ -27,12 +27,20 @@ txt_to_img_pipe = None
 img_to_img_pipe = None
 dpth_to_img_pipe = None
 
-txt_to_img_pipe = StableDiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16)  
+currentmodel = "runwayml/stable-diffusion-v1-5"
+
+txt_to_img_pipe = StableDiffusionPipeline.from_pretrained(currentmodel, torch_dtype=torch.float16)  
 txt_to_img_pipe = txt_to_img_pipe.to("cuda")
 
 def getImageForPrompt(_prompt, _neg,_width, _height,_steps,_guidance,_seed,_scheduler,_samples,_selectedmodel):
 
   global txt_to_img_pipe
+  global currentmodel
+
+  if (_selectedmodel != currentmodel):
+    currentmodel = _selectedmodel
+    txt_to_img_pipe = StableDiffusionPipeline.from_pretrained(currentmodel, torch_dtype=torch.float16)  
+    txt_to_img_pipe = txt_to_img_pipe.to("cuda")
 
   if _seed == 0:
     _seed = random.randint(0, 2147483647)
