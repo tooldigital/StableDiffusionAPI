@@ -128,7 +128,7 @@ const App = () => {
               <option>wimvanhenden/country-ultmcntry-v4</option>
               <option>wimvanhenden/hiphop-ultmhxphxp-v4</option>
               <option>wimvanhenden/edm-ultmedm-v4</option>
-              <option>wimvanhenden/rock-ultmrck-v4</option>    
+              <option>wimvanhenden/rock-ultmrck-v4</option>   
             </Select>
           </FormControl>
 

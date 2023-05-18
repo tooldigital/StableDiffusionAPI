@@ -55,7 +55,7 @@ def generateSD():
                 # Store the output predictions in the database, using image ID as the key so we can fetch the results
                 
                 images = tool_methods.getImageForPrompt(sd_objects[0]['prompt'],sd_objects[0]['negative_prompt'],512,512,sd_objects[0]['steps'],sd_objects[0]['guidance'],0,sd_objects[0]['scheduler'],sd_objects[0]['amount'],sd_objects[0]['selected_model'])
-               
+                
                 base64strings = []
                 imagstrings = ""
                 for n in range(len(images)):
