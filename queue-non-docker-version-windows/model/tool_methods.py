@@ -27,9 +27,11 @@ txt_to_img_pipe = None
 img_to_img_pipe = None
 dpth_to_img_pipe = None
 
+#C:\Users\wimva\.cache\huggingface\diffusers\models--runwayml--stable-diffusion-v1-5\snapshots\aa9ba505e1973ae5cd05f5aedd345178f52f8e6a
+
 currentmodel = "runwayml/stable-diffusion-v1-5"
 
-txt_to_img_pipe = StableDiffusionPipeline.from_pretrained(currentmodel, torch_dtype=torch.float16)  
+txt_to_img_pipe = StableDiffusionPipeline.from_pretrained(currentmodel,torch_dtype=torch.float16)  
 txt_to_img_pipe = txt_to_img_pipe.to("cuda")
 
 def getImageForPrompt(_prompt, _neg,_width, _height,_steps,_guidance,_seed,_scheduler,_samples,_selectedmodel):
