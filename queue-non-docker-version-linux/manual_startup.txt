@@ -1,0 +1,23 @@
+//FIRST TIME ONLY
+conda env create --file environment.yml
+
+
+//START REDIS
+redis-server --protected-mode no &
+ctrl-c
+
+//START API
+cd api
+conda activate tool_stable_diffusion_api
+uvicorn main:app --host localhost --reload --port 5150 &
+ctrl-c
+
+//START MODEL
+cd model
+python main.py &
+ctrol-c
+
+type jobs to see if all jobs are running
+
+
+
