@@ -95,7 +95,7 @@ const App = () => {
           "ngrok-skip-browser-warning": "69420"
         }
       };
-      const result = await axios.get(`http://localhost/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}&amount=1`,config);
+      const result = await axios.get(`http://192.168.15:5150/generate?prompt=${prompt}&negative_prompt=${neg_prompt}&steps=${steps}&seed=${seed}&guidance=${guidance}&scheduler=${selected_scheduler}&selected_model=${selected_model}&amount=1`,config);
       updateImage(result.data[0]);
       updateLoading(false);
     }
